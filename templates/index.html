@@ -2,164 +2,42 @@
 <html>
 <head>
 	<title>NFL</title>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
-<body>
-<h3>{{stat}} Data</h3>
-<form action="/make_table" method="POST">
-	Category: <select name="category">
-		<option value="rushing_yds">Rushing</option>
-		<option value="receiving_yds">Receiving</option>
-		<option value="passing_yds">Passing</option>
-	</select>
-	Season: <select name="season">
-		<option value="2009">2009</option>
-		<option value="2010">2010</option>
-		<option value="2011">2011</option>
-		<option value="2012">2012</option>
-		<option value="2013">2013</option>
-		<option value="2014">2014</option>
-		<option value="2015">2015</option>
-	</select>
-	Limit: <select name="limit">
-		<option value="10">10</option>
-		<option value="20">20</option>
-		<option value="30">30</option>
-	</select>
-	<input type="submit" Value="Generate">
-</form>
-<canvas id="myChart" width="300" height="300"></canvas>
-<table>
-	<thead>
-		<th>Name</th>
-		<th>Yards</th>
-		<th>TDs</th>
-	</thead>
-	<tbody>
-	{% for player in players %}
-		<tr>
-			<td class="name">{{player.name}}</td>
-		{% if stat == 'Rushing' %}
-			<td class='yards'>{{player.rushing_yds}}</td>
-			<td class="tds">{{player.rushing_tds}}</td>
-		{% endif %}
-		{% if stat == 'Receiving' %}
-			<td class='yards'>{{player.receiving_yds}}</td>	
-			<td class="tds">{{player.receiving_tds}}</td>
-		{% endif %}
-		{% if stat == 'Passing' %}
-			<td class='yards'>{{player.passing_yds}}</td>
-			<td class="tds">{{player.passing_tds}}</td>
-			{%endif%}
-		</tr>
-	{%endfor%}
-	</tbody>
-</table>
-<hr>
-<h3>Create a New Table</h3>
-
-
-<script>
-var stats = [];
-var names = [];
-$(document).ready(function(){
-	$('.yards').each(function(){
-		stats.push(parseInt(($(this).html())))
-	})
-	console.log(stats)
-
-	$('.name').each(function(){
-		names.push(($(this).html()))
-	})
-	console.log(names)
-
-var ctx = document.getElementById("myChart");
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: names,
-        datasets: [{
-            label: 'Yards',
-            data: stats,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)'                  
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<style type="text/css">
+    h1 {
+        text-align: center;
+        font-size: 3rem;
     }
-});
-})
-</script>
+    h4 {
+        margin:auto;
+        text-align: center;
+        width: 60%;
+
+    }
+    #buttons{
+        margin:auto;
+        width: 45%;
+    }
+</style>
+<body>
+    <h1>Offensive Explosion</h1>
+    <h4>
+        Offensive Football Football stuff. Quarterback, Running Back, nickel dime SHIT. THIS IS IMPORTANT. LOVE IS FOOTBALL WE ARE FOOTBALL. STATEMENT ABOUT THE WEBSITE BRAH
+    </h4>
+    <div id="buttons">
+        <!-- top 20 passing -->
+        <a href="/toppassers"><button>Passing</button></a>
+        <!-- last 7 seasons pie charts -->
+        <a href="/rushvspass"><button>Rush vs Pass</button></a>
+
+
+        
+        <a href="/yardagevstds"><button>Yardage vs Tds</button></a>
+        <a href="/stuff"><button>STUFF</button></a>
+        <a href="/stuffy"><button>wowzer</button></a>
+        
+    </div>
+
 </body>
 </html>

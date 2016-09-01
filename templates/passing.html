@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NFL</title>
+</head>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<style type="text/css">
+    h1 {
+        text-align: center;
+        font-size: 3rem;
+    }
+</style>
+<body>
+    <h1>Passing Yardage/Tds 2009-2015</h1>
+    <canvas id="passingChart" width="300" height="300"></canvas>
+    <script type="text/javascript">
+        var allyears = []
+        $(document).ready(function(){
+              $.get('/passing', function(res){
+                for (x in res){
+                    var temparr = []
+                    for(var i = 0; i < res[x].length; i ++){
+                        var obj = {}
+                        obj.x =res[x][i].tds
+                        obj.y =res[x][i].yards
+                        temparr.push(obj)
+                    }
+                    allyears.push(temparr)
+                }
+                console.log(res)
+             
+                var ctx = $("#passingChart");
+                var passingChart = new Chart(ctx, {
+                    type: 'line',
+                    data:{
+                            datasets: [
+                                {
+                                    label: '2009',
+                                    data: allyears[0],
+                                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                                    borderColor: 'rgba(255,99,132,1)',
+                                },
+                                {
+                                    label: '2010',
+                                    data: allyears[1],
+                                    backgroundColor: 'rgba(150, 255, 60, 0.5)',
+                                    borderColor: 'rgba(150, 255, 60, 1)',
+                                },
+                                {
+                                    label: '2011',
+                                    data: allyears[2],
+                                    backgroundColor: 'rgba(255, 153, 0, 0.5)',
+                                    borderColor: 'rgba(255, 153, 0, 1)',
+                                },
+                                {
+                                    label: '2012',
+                                    data: allyears[3],
+                                    backgroundColor: 'rgba(255, 0, 0, 0.5)',
+                                    borderColor: 'rgba(255, 0, 0, 1)',
+                                },
+                                {
+                                    label: '2013',
+                                    data: allyears[4],
+                                    backgroundColor: 'rgba(0, 0, 255, 0.5)',
+                                    borderColor: 'rgba(0, 0, 255, 1)',
+                                },
+                                {
+                                    label: '2014',
+                                    data: allyears[5],
+                                    backgroundColor: 'rgba(128, 0, 0, 0.5)',
+                                    borderColor: 'rgba(128, 0, 0, 1)',
+                                },
+                                {
+                                    label: '2015',
+                                    data: allyears[6],
+                                    backgroundColor: 'rgba(255, 255, 0, 0.5)',
+                                    borderColor: 'rgba(255, 255, 0, 1)',
+                                },
+                            ]
+                        },
+                        options: {
+                            showLines : false,
+                            scales: {
+                                xAxes: [{
+                                    type: 'linear',
+                                    position: 'bottom',
+                                    ticks: {
+                                        beginAtZero:true,
+                                        min:0,
+                                        max:60,
+                                    }
+                                }],
+                                yAxes: [{
+                                    type: 'linear',
+                                    position: 'left',
+                                    ticks: {
+                                        beginAtZero:true,
+                                        min:0,
+                                        max:6000,
+                                    }
+                                }]
+                            }
+                        }
+                    }); 
+                }, 'json');
+            })
+    </script>
+</body>
+</html>
