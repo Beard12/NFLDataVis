@@ -18,8 +18,16 @@
         width:30%;
     }
     #pie div p,h5{
-        margin-top: 2px;
         margin-bottom: 2px;
+        margin-top: 2px;
+        text-align: center;
+    }
+    #percengraph{
+        margin:auto;
+        width:90%;
+    }
+    #percengraph p{
+        font-size: 2rem;
         text-align: center;
     }
     
@@ -64,28 +72,21 @@
             <canvas id="Chart2015" width="50" height="50"></canvas>
         </div>
     </div>
-    <div>
-            <p>Percentage</p>
+    <div id="percengraph">
+            <p>Percentage Over Time</p>
             <canvas id="passperc" width="50" height="50"></canvas>
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
             var allyards = [];
             var alltds = [];
-            var passperc = [];
-            var per09;
+            var percentages = {} 
             var show09 = false;
-            var per10;
             var show10 = false;
-            var per11;
             var show11 = false;
-            var per12;
             var show12 = false;
-            var per13;
             var show13 = false;
-            var per14;
             var show14 = false;
-            var per15;
             var show15 = false;
             var Chart2009;
             var Chart2010;
@@ -95,7 +96,7 @@
             var Chart2014;
             var Chart2015;
             var PassPerc;
-              $.get('/passvsrushbyyear', function(res){
+            $.get('/passvsrushbyyear', function(res){
                     for (x in res){
                         var temparr = []
                         var temparr2 = []
@@ -106,8 +107,12 @@
                         temparr2.push(res[x].passtds)
                         alltds.push(temparr2)
                     }
-                    per09=((allyards[0][1]/(allyards[0][0]+allyards[0][1]))*100).toFixed(2)
-                    $('#per09').html('Yards ' + per09 + '% Passing')
+                    for(var i = 2009; i < 2016;i++){
+                        percentages['passperc' + i] = ((allyards[i-2009][1]/(allyards[i-2009][0]+allyards[i-2009][1]))*100).toFixed(2)
+                        percentages['passtdsperc' + i] = ((alltds[i-2009][1]/(alltds[i-2009][0]+alltds[i-2009][1]))*100).toFixed(2)
+                    }
+                    console.log(percentages)
+                    $('#per09').html('Yards ' + percentages.passperc2009 + '% Passing')
                     var ctx09 = $("#Chart2009");
                     Chart2009 = new Chart(ctx09, {
                         type: 'pie',
@@ -125,8 +130,7 @@
                             cutoutPercentage: 25
                         }
                     });
-                    per10=((allyards[1][1]/(allyards[1][0]+allyards[1][1]))*100).toFixed(2)
-                    $('#per10').html('Yards ' + per10 + '% Passing')
+                    $('#per10').html('Yards ' + percentages.passperc2010 + '% Passing')
                     var ctx10 = $("#Chart2010");
                     Chart2010 = new Chart(ctx10, {
                         type: 'pie',
@@ -144,8 +148,7 @@
                             cutoutPercentage: 25
                         }
                     });
-                    per11=((allyards[2][1]/(allyards[2][0]+allyards[2][1]))*100).toFixed(2)
-                    $('#per11').html('Yards' + per11 + '% Passing')
+                    $('#per11').html('Yards ' + percentages.passperc2011 + '% Passing')
                     var ctx11 = $("#Chart2011");
                     Chart2011 = new Chart(ctx11, {
                         type: 'pie',
@@ -163,8 +166,7 @@
                             cutoutPercentage: 25
                         }
                     });
-                    per12=((allyards[3][1]/(allyards[3][0]+allyards[3][1]))*100).toFixed(2)
-                    $('#per12').html('Yards ' + per12 + '% Passing')
+                    $('#per12').html('Yards ' + percentages.passperc2012 + '% Passing')
                     var ctx12 = $("#Chart2012");
                     Chart2012 = new Chart(ctx12, {
                         type: 'pie',
@@ -182,8 +184,7 @@
                             cutoutPercentage: 25
                         }
                     });
-                    per13=((allyards[4][1]/(allyards[4][0]+allyards[4][1]))*100).toFixed(2)
-                    $('#per13').html('Yards ' + per13 + '% Passing')
+                    $('#per13').html('Yards ' + percentages.passperc2013 + '% Passing')
                     var ctx13 = $("#Chart2013");
                     Chart2013 = new Chart(ctx13, {
                         type: 'pie',
@@ -201,8 +202,7 @@
                             cutoutPercentage: 25
                         }
                     });
-                    per14=((allyards[5][1]/(allyards[5][0]+allyards[5][1]))*100).toFixed(2)
-                    $('#per14').html('Yards ' + per14 + '% Passing')
+                    $('#per14').html('Yards ' + percentages.passperc2014 + '% Passing')
                     var ctx14 = $("#Chart2014");
                     Chart2014 = new Chart(ctx14, {
                         type: 'pie',
@@ -220,8 +220,7 @@
                             cutoutPercentage: 25
                         }
                     });
-                    per15=((allyards[6][1]/(allyards[6][0]+allyards[6][1]))*100).toFixed(2)
-                    $('#per15').html('Yards ' + per15 + '% Passing')
+                    $('#per15').html('Yards ' + percentages.passperc2015 + '% Passing')
                     var ctx15 = $("#Chart2015");
                     Chart2015 = new Chart(ctx15, {
                         type: 'pie',
@@ -240,14 +239,6 @@
                         }
                     });
 
-                    var td09 = ((alltds[0][1]/(alltds[0][0]+alltds[0][1]))*100).toFixed(2)
-                    var td10 = ((alltds[1][1]/(alltds[1][0]+alltds[1][1]))*100).toFixed(2)
-                    var td11 = ((alltds[2][1]/(alltds[2][0]+alltds[2][1]))*100).toFixed(2)
-                    var td12 = ((alltds[3][1]/(alltds[3][0]+alltds[3][1]))*100).toFixed(2)
-                    var td13 = ((alltds[4][1]/(alltds[4][0]+alltds[4][1]))*100).toFixed(2)
-                    var td14 = ((alltds[5][1]/(alltds[5][0]+alltds[5][1]))*100).toFixed(2)
-                    var td15 = ((alltds[6][1]/(alltds[6][0]+alltds[6][1]))*100).toFixed(2)
-
                     var ctxperc = $('#passperc');
                     PassPerc = new Chart(ctxperc,{
                         type: 'line',
@@ -256,14 +247,30 @@
                                 {   
                                     fill: false,
                                     label:'Total Offensive Yards Pass Percentage by Year',
-                                    data: [{x:2009, y: per09 },{x:2010, y: per10 },{x:2011, y: per11 },{x:2012, y: per12 },{x:2013, y: per13 },{x:2014, y: per14 }, {x:2015, y:per15}],
+                                    data: [
+                                        {x:2009, y: percentages.passperc2009 },
+                                        {x:2010, y: percentages.passperc2010 },
+                                        {x:2011, y: percentages.passperc2011 },
+                                        {x:2012, y: percentages.passperc2012 },
+                                        {x:2013, y: percentages.passperc2013 },
+                                        {x:2014, y: percentages.passperc2014 }, 
+                                        {x:2015, y: percentages.passperc2015 }
+                                    ],
                                     backgroundColor: 'rgba(255, 153, 0, 0.5)',
                                     borderColor: 'rgba(255, 153, 0, 1)'
                                 },
                                 {
                                     fill: false,
                                     label:'Total Passing Touchdowns Percentage by Year',
-                                    data: [{x:2009, y: td09 },{x:2010, y: td10 },{x:2011, y: td11 },{x:2012, y: td12 },{x:2013, y: td13 },{x:2014, y: td14 }, {x:2015, y:td15}],
+                                    data: [
+                                        {x:2009, y: percentages.passtdsperc2009 },
+                                        {x:2010, y: percentages.passtdsperc2010 },
+                                        {x:2011, y: percentages.passtdsperc2011 },
+                                        {x:2012, y: percentages.passtdsperc2012 },
+                                        {x:2013, y: percentages.passtdsperc2013 },
+                                        {x:2014, y: percentages.passtdsperc2014 },
+                                        {x:2015, y: percentages.passtdsperc2015 }
+                                    ],
                                     backgroundColor: 'rgba(0, 0, 255, 0.5)',
                                     borderColor: 'rgba(0, 0, 255, 1)'
                                 }
@@ -297,15 +304,13 @@
                 if(show09){
                     show09 = false;
                     Chart2009.config.data.datasets[0].data = allyards[0]
-                    per09=((allyards[0][1]/(allyards[0][0]+allyards[0][1]))*100).toFixed(2)
-                    $('#per09').html('Yards ' + per09 + '% Passing')
+                    $('#per09').html('Yards ' + percentages.passperc2009  + '% Passing')
                     Chart2009.update()
                 }
                 else{
                     show09 = true;
                     Chart2009.config.data.datasets[0].data = alltds[0]
-                    per09=td09
-                    $('#per09').html('Passing Touchdowns ' + per09 + '%')
+                    $('#per09').html('Passing Touchdowns ' + percentages.passtdsperc2009  + '%')
                     Chart2009.update()
                 }
             })
@@ -313,15 +318,13 @@
                 if(show10){
                     show10 = false;
                     Chart2010.config.data.datasets[0].data = allyards[1]
-                    per10=((allyards[1][1]/(allyards[1][0]+allyards[1][1]))*100).toFixed(2)
-                    $('#per10').html('Yards ' + per10 + '% Passing')
+                    $('#per10').html('Yards ' + percentages.passperc2010 + '% Passing')
                     Chart2010.update()
                 }
                 else{
                     show10 = true;
                     Chart2010.config.data.datasets[0].data = alltds[1]
-                    per10=td10
-                    $('#per10').html('Passing Touchdowns ' + per10 + '%')
+                    $('#per10').html('Passing Touchdowns ' + percentages.passtdsperc2010 + '%')
                     Chart2010.update()
                 }
             })
@@ -329,15 +332,13 @@
                 if(show11){
                     show11 = false;
                     Chart2011.config.data.datasets[0].data = allyards[2]
-                    per11=((allyards[2][1]/(allyards[2][0]+allyards[2][1]))*100).toFixed(2)
-                    $('#per11').html('Yards ' + per11 + '% Passing')
+                    $('#per11').html('Yards ' + percentages.passperc2011 + '% Passing')
                     Chart2011.update()
                 }
                 else{
                     show11 = true;
                     Chart2011.config.data.datasets[0].data = alltds[2]
-                    per11=td11
-                    $('#per11').html('Passing Touchdowns ' + per11 + '%')
+                    $('#per11').html('Passing Touchdowns ' + percentages.passtdsperc2011 + '%')
                     Chart2011.update()
                 }
             })
@@ -345,15 +346,13 @@
                 if(show12){
                     show12 = false;
                     Chart2012.config.data.datasets[0].data = allyards[3]
-                    per12=((allyards[3][1]/(allyards[3][0]+allyards[3][1]))*100).toFixed(2)
-                    $('#per12').html('Yards ' + per12 + '% Passing')
+                    $('#per12').html('Yards ' + percentages.passperc2012 + '% Passing')
                     Chart2012.update()
                 }
                 else{
                     show12 = true;
                     Chart2012.config.data.datasets[0].data = alltds[3]
-                    per12=td12
-                    $('#per12').html('Passing Touchdowns ' + per12 + '%')
+                    $('#per12').html('Passing Touchdowns ' + percentages.passtdsperc2012 + '%')
                     Chart2012.update()
                 }
             })
@@ -361,15 +360,13 @@
                 if(show13){
                     show13 = false;
                     Chart2013.config.data.datasets[0].data = allyards[4]
-                    per13=((allyards[4][1]/(allyards[4][0]+allyards[4][1]))*100).toFixed(2)
-                    $('#per13').html('Yards ' + per13 + '% Passing')
+                    $('#per13').html('Yards ' + percentages.passperc2013 + '% Passing')
                     Chart2013.update()
                 }
                 else{
                     show13 = true;
                     Chart2013.config.data.datasets[0].data = alltds[4]
-                    per13=td13
-                    $('#per13').html('Passing Touchdowns ' + per13 + '%')
+                    $('#per13').html('Passing Touchdowns ' + percentages.passtdsperc2013 + '%')
                     Chart2013.update()
                 }
             })
@@ -377,15 +374,13 @@
                 if(show14){
                     show14 = false;
                     Chart2014.config.data.datasets[0].data = allyards[5]
-                    per14=((allyards[5][1]/(allyards[5][0]+allyards[5][1]))*100).toFixed(2)
-                    $('#per14').html('Yards ' + per14 + '% Passing')
+                    $('#per14').html('Yards ' + percentages.passperc2014 + '% Passing')
                     Chart2014.update()
                 }
                 else{
                     show14 = true;
                     Chart2014.config.data.datasets[0].data = alltds[5]
-                    per14=td14
-                    $('#per14').html('Passing Touchdowns ' + per14 + '%')
+                    $('#per14').html('Passing Touchdowns ' + percentages.passtdsperc2014 + '%')
                     Chart2014.update()
                 }
             })
@@ -393,15 +388,13 @@
                 if(show15){
                     show15 = false;
                     Chart2015.config.data.datasets[0].data = allyards[6]
-                    per15=((allyards[6][1]/(allyards[6][0]+allyards[6][1]))*100).toFixed(2)
-                    $('#per15').html('Yards ' + per15 + '% Passing')
+                    $('#per15').html('Yards ' + percentages.passperc2015 + '% Passing')
                     Chart2015.update()
                 }
                 else{
                     show15 = true;
                     Chart2015.config.data.datasets[0].data = alltds[6]
-                    per15=td15
-                    $('#per15').html('Passing Touchdowns ' + per15 + '%')
+                    $('#per15').html('Passing Touchdowns ' + percentages.passtdsperc2015 + '%')
                     Chart2015.update()
                 }
             })
