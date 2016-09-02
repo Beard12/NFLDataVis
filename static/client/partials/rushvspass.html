@@ -1,0 +1,392 @@
+<style type="text/css">
+    h1 {
+        text-align: center;
+        font-size: 3rem;
+    }
+    #pie{
+        margin:auto;
+    }
+    #pie div{
+        display: inline-block;
+        width:30%;
+    }
+    #pie div p,h5{
+        margin-bottom: 2px;
+        margin-top: 2px;
+        text-align: center;
+    }
+    #percengraph{
+        margin:auto;
+        width:90%;
+    }
+    #percengraph p{
+        font-size: 2rem;
+        text-align: center;
+    }
+</style>
+    <h1> Offensive yards passing vs rushing</h1>
+    <div id='pie'>
+        <div>
+            <p>2009</p>
+            <h5 id="per09"></h5>
+            <canvas id="Chart2009" width="50" height="50"></canvas>
+        </div>
+        <div>
+            <p>2010</p>
+            <h5 id="per10"></h5>
+            <canvas id="Chart2010" width="50" height="50"></canvas>
+        </div>
+        <div>
+            <p>2011</p>
+            <h5 id="per11"></h5>
+            <canvas id="Chart2011" width="50" height="50"></canvas>
+        </div>
+        <div>
+            <p>2012</p>
+            <h5 id="per12"></h5>
+            <canvas id="Chart2012" width="50" height="50"></canvas>
+        </div>
+        <div>
+            <p>2013</p>
+            <h5 id="per13"></h5>
+            <canvas id="Chart2013" width="50" height="50"></canvas>
+        </div>
+        <div>
+            <p>2014</p>
+            <h5 id="per14"></h5>
+            <canvas id="Chart2014" width="50" height="50"></canvas>
+        </div>
+        <div>
+            <p>2015</p>
+            <h5 id="per15"></h5>
+            <canvas id="Chart2015" width="50" height="50"></canvas>
+        </div>
+    </div>
+    <div id="percengraph">
+            <p>Percentage Over Time</p>
+            <canvas id="passperc" width="50" height="50"></canvas>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var allyards = [];
+            var alltds = [];
+            var percentages = {} 
+            var show09 = false;
+            var show10 = false;
+            var show11 = false;
+            var show12 = false;
+            var show13 = false;
+            var show14 = false;
+            var show15 = false;
+            var Chart2009;
+            var Chart2010;
+            var Chart2011;
+            var Chart2012;
+            var Chart2013;
+            var Chart2014;
+            var Chart2015;
+            var PassPerc;
+            $.get('/passvsrushbyyear', function(res){
+                    for (x in res){
+                        var temparr = []
+                        var temparr2 = []
+                        temparr.push(res[x].rush)
+                        temparr.push(res[x].pass)
+                        allyards.push(temparr)
+                        temparr2.push(res[x].rushtds)
+                        temparr2.push(res[x].passtds)
+                        alltds.push(temparr2)
+                    }
+                    for(var i = 2009; i < 2016;i++){
+                        percentages['passperc' + i] = ((allyards[i-2009][1]/(allyards[i-2009][0]+allyards[i-2009][1]))*100).toFixed(2)
+                        percentages['passtdsperc' + i] = ((alltds[i-2009][1]/(alltds[i-2009][0]+alltds[i-2009][1]))*100).toFixed(2)
+                    }
+                    console.log(percentages)
+                    $('#per09').html('Yards ' + percentages.passperc2009 + '% Passing')
+                    var ctx09 = $("#Chart2009");
+                    Chart2009 = new Chart(ctx09, {
+                        type: 'pie',
+                        data:{
+                            labels:['Rush', 'Pass'],
+                            datasets:[{
+                                    data: allyards[0],
+                                    backgroundColor: [
+                                        'rgba(255, 153, 0, 0.5)',
+                                        'rgba(0, 0, 255, 0.5)'
+                                    ]
+                            }],
+                        },
+                        options: {
+                            cutoutPercentage: 25
+                        }
+                    });
+                    $('#per10').html('Yards ' + percentages.passperc2010 + '% Passing')
+                    var ctx10 = $("#Chart2010");
+                    Chart2010 = new Chart(ctx10, {
+                        type: 'pie',
+                        data:{
+                            labels:['Rush', 'Pass'],
+                            datasets:[{
+                                    data: allyards[1],
+                                    backgroundColor: [
+                                        'rgba(255, 153, 0, 0.5)',
+                                        'rgba(0, 0, 255, 0.5)'
+                                    ]
+                            }],
+                        },
+                        options: {
+                            cutoutPercentage: 25
+                        }
+                    });
+                    $('#per11').html('Yards ' + percentages.passperc2011 + '% Passing')
+                    var ctx11 = $("#Chart2011");
+                    Chart2011 = new Chart(ctx11, {
+                        type: 'pie',
+                        data:{
+                            labels:['Rush', 'Pass'],
+                            datasets:[{
+                                    data: allyards[2],
+                                    backgroundColor: [
+                                        'rgba(255, 153, 0, 0.5)',
+                                        'rgba(0, 0, 255, 0.5)'
+                                    ]
+                            }],
+                        },
+                        options: {
+                            cutoutPercentage: 25
+                        }
+                    });
+                    $('#per12').html('Yards ' + percentages.passperc2012 + '% Passing')
+                    var ctx12 = $("#Chart2012");
+                    Chart2012 = new Chart(ctx12, {
+                        type: 'pie',
+                        data:{
+                            labels:['Rush', 'Pass'],
+                            datasets:[{
+                                    data: allyards[3],
+                                    backgroundColor: [
+                                        'rgba(255, 153, 0, 0.5)',
+                                        'rgba(0, 0, 255, 0.5)'
+                                    ]
+                            }],
+                        },
+                        options: {
+                            cutoutPercentage: 25
+                        }
+                    });
+                    $('#per13').html('Yards ' + percentages.passperc2013 + '% Passing')
+                    var ctx13 = $("#Chart2013");
+                    Chart2013 = new Chart(ctx13, {
+                        type: 'pie',
+                        data:{
+                            labels:['Rush', 'Pass'],
+                            datasets:[{
+                                    data: allyards[4],
+                                    backgroundColor: [
+                                        'rgba(255, 153, 0, 0.5)',
+                                        'rgba(0, 0, 255, 0.5)'
+                                    ]
+                            }],
+                        },
+                        options: {
+                            cutoutPercentage: 25
+                        }
+                    });
+                    $('#per14').html('Yards ' + percentages.passperc2014 + '% Passing')
+                    var ctx14 = $("#Chart2014");
+                    Chart2014 = new Chart(ctx14, {
+                        type: 'pie',
+                        data:{
+                            labels:['Rush', 'Pass'],
+                            datasets:[{
+                                    data: allyards[5],
+                                    backgroundColor: [
+                                        'rgba(255, 153, 0, 0.5)',
+                                        'rgba(0, 0, 255, 0.5)'
+                                    ]
+                            }],
+                        },
+                        options: {
+                            cutoutPercentage: 25
+                        }
+                    });
+                    $('#per15').html('Yards ' + percentages.passperc2015 + '% Passing')
+                    var ctx15 = $("#Chart2015");
+                    Chart2015 = new Chart(ctx15, {
+                        type: 'pie',
+                        data:{
+                            labels:['Rush', 'Pass'],
+                            datasets:[{
+                                    data: allyards[6],
+                                    backgroundColor: [
+                                        'rgba(255, 153, 0, 0.5)',
+                                        'rgba(0, 0, 255, 0.5)'
+                                    ]
+                            }],
+                        },
+                        options: {
+                            cutoutPercentage: 25
+                        }
+                    });
+
+                    var ctxperc = $('#passperc');
+                    PassPerc = new Chart(ctxperc,{
+                        type: 'line',
+                        data:{
+                            datasets: [
+                                {   
+                                    fill: false,
+                                    label:'Total Offensive Yards Pass Percentage by Year',
+                                    data: [
+                                        {x:2009, y: percentages.passperc2009 },
+                                        {x:2010, y: percentages.passperc2010 },
+                                        {x:2011, y: percentages.passperc2011 },
+                                        {x:2012, y: percentages.passperc2012 },
+                                        {x:2013, y: percentages.passperc2013 },
+                                        {x:2014, y: percentages.passperc2014 }, 
+                                        {x:2015, y: percentages.passperc2015 }
+                                    ],
+                                    backgroundColor: 'rgba(255, 153, 0, 0.5)',
+                                    borderColor: 'rgba(255, 153, 0, 1)'
+                                },
+                                {
+                                    fill: false,
+                                    label:'Total Passing Touchdowns Percentage by Year',
+                                    data: [
+                                        {x:2009, y: percentages.passtdsperc2009 },
+                                        {x:2010, y: percentages.passtdsperc2010 },
+                                        {x:2011, y: percentages.passtdsperc2011 },
+                                        {x:2012, y: percentages.passtdsperc2012 },
+                                        {x:2013, y: percentages.passtdsperc2013 },
+                                        {x:2014, y: percentages.passtdsperc2014 },
+                                        {x:2015, y: percentages.passtdsperc2015 }
+                                    ],
+                                    backgroundColor: 'rgba(0, 0, 255, 0.5)',
+                                    borderColor: 'rgba(0, 0, 255, 1)'
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                xAxes: [{
+                                    type:'linear',
+                                    position:'bottom',
+                                    ticks: {
+                                        min:2009,
+                                        max:2015
+                                    }
+                                }],
+                                yAxes: [{
+                                    type:'linear',
+                                    position: 'left',
+                                    ticks: {
+                                        min: 60,
+                                        max: 74
+                                    }
+                                }]
+                            }
+                        }
+
+                    });
+
+                }, 'json');
+            $('#Chart2009').click(function(){
+                if(show09){
+                    show09 = false;
+                    Chart2009.config.data.datasets[0].data = allyards[0]
+                    $('#per09').html('Yards ' + percentages.passperc2009  + '% Passing')
+                    Chart2009.update()
+                }
+                else{
+                    show09 = true;
+                    Chart2009.config.data.datasets[0].data = alltds[0]
+                    $('#per09').html('Passing Touchdowns ' + percentages.passtdsperc2009  + '%')
+                    Chart2009.update()
+                }
+            })
+            $('#Chart2010').click(function(){
+                if(show10){
+                    show10 = false;
+                    Chart2010.config.data.datasets[0].data = allyards[1]
+                    $('#per10').html('Yards ' + percentages.passperc2010 + '% Passing')
+                    Chart2010.update()
+                }
+                else{
+                    show10 = true;
+                    Chart2010.config.data.datasets[0].data = alltds[1]
+                    $('#per10').html('Passing Touchdowns ' + percentages.passtdsperc2010 + '%')
+                    Chart2010.update()
+                }
+            })
+            $('#Chart2011').click(function(){
+                if(show11){
+                    show11 = false;
+                    Chart2011.config.data.datasets[0].data = allyards[2]
+                    $('#per11').html('Yards ' + percentages.passperc2011 + '% Passing')
+                    Chart2011.update()
+                }
+                else{
+                    show11 = true;
+                    Chart2011.config.data.datasets[0].data = alltds[2]
+                    $('#per11').html('Passing Touchdowns ' + percentages.passtdsperc2011 + '%')
+                    Chart2011.update()
+                }
+            })
+            $('#Chart2012').click(function(){
+                if(show12){
+                    show12 = false;
+                    Chart2012.config.data.datasets[0].data = allyards[3]
+                    $('#per12').html('Yards ' + percentages.passperc2012 + '% Passing')
+                    Chart2012.update()
+                }
+                else{
+                    show12 = true;
+                    Chart2012.config.data.datasets[0].data = alltds[3]
+                    $('#per12').html('Passing Touchdowns ' + percentages.passtdsperc2012 + '%')
+                    Chart2012.update()
+                }
+            })
+            $('#Chart2013').click(function(){
+                if(show13){
+                    show13 = false;
+                    Chart2013.config.data.datasets[0].data = allyards[4]
+                    $('#per13').html('Yards ' + percentages.passperc2013 + '% Passing')
+                    Chart2013.update()
+                }
+                else{
+                    show13 = true;
+                    Chart2013.config.data.datasets[0].data = alltds[4]
+                    $('#per13').html('Passing Touchdowns ' + percentages.passtdsperc2013 + '%')
+                    Chart2013.update()
+                }
+            })
+            $('#Chart2014').click(function(){
+                if(show14){
+                    show14 = false;
+                    Chart2014.config.data.datasets[0].data = allyards[5]
+                    $('#per14').html('Yards ' + percentages.passperc2014 + '% Passing')
+                    Chart2014.update()
+                }
+                else{
+                    show14 = true;
+                    Chart2014.config.data.datasets[0].data = alltds[5]
+                    $('#per14').html('Passing Touchdowns ' + percentages.passtdsperc2014 + '%')
+                    Chart2014.update()
+                }
+            })
+            $('#Chart2015').click(function(){
+                if(show15){
+                    show15 = false;
+                    Chart2015.config.data.datasets[0].data = allyards[6]
+                    $('#per15').html('Yards ' + percentages.passperc2015 + '% Passing')
+                    Chart2015.update()
+                }
+                else{
+                    show15 = true;
+                    Chart2015.config.data.datasets[0].data = alltds[6]
+                    $('#per15').html('Passing Touchdowns ' + percentages.passtdsperc2015 + '%')
+                    Chart2015.update()
+                }
+            })
+        })
+    </script>
