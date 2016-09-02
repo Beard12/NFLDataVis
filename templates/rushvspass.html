@@ -64,10 +64,15 @@
             <canvas id="Chart2015" width="50" height="50"></canvas>
         </div>
     </div>
+    <div>
+            <p>Percentage</p>
+            <canvas id="passperc" width="50" height="50"></canvas>
+    </div>
     <script type="text/javascript">
         $(document).ready(function(){
-            var allyards = []
-            var alltds = []
+            var allyards = [];
+            var alltds = [];
+            var passperc = [];
             var per09;
             var show09 = false;
             var per10;
@@ -89,9 +94,8 @@
             var Chart2013;
             var Chart2014;
             var Chart2015;
-            console.log(Chart2009)
+            var PassPerc;
               $.get('/passvsrushbyyear', function(res){
-                console.log(res)
                     for (x in res){
                         var temparr = []
                         var temparr2 = []
@@ -234,7 +238,60 @@
                         options: {
                             cutoutPercentage: 25
                         }
-                    });   
+                    });
+
+                    var td09 = ((alltds[0][1]/(alltds[0][0]+alltds[0][1]))*100).toFixed(2)
+                    var td10 = ((alltds[1][1]/(alltds[1][0]+alltds[1][1]))*100).toFixed(2)
+                    var td11 = ((alltds[2][1]/(alltds[2][0]+alltds[2][1]))*100).toFixed(2)
+                    var td12 = ((alltds[3][1]/(alltds[3][0]+alltds[3][1]))*100).toFixed(2)
+                    var td13 = ((alltds[4][1]/(alltds[4][0]+alltds[4][1]))*100).toFixed(2)
+                    var td14 = ((alltds[5][1]/(alltds[5][0]+alltds[5][1]))*100).toFixed(2)
+                    var td15 = ((alltds[6][1]/(alltds[6][0]+alltds[6][1]))*100).toFixed(2)
+
+                    var ctxperc = $('#passperc');
+                    PassPerc = new Chart(ctxperc,{
+                        type: 'line',
+                        data:{
+                            datasets: [
+                                {   
+                                    fill: false,
+                                    label:'Total Offensive Yards Pass Percentage by Year',
+                                    data: [{x:2009, y: per09 },{x:2010, y: per10 },{x:2011, y: per11 },{x:2012, y: per12 },{x:2013, y: per13 },{x:2014, y: per14 }, {x:2015, y:per15}],
+                                    backgroundColor: 'rgba(255, 153, 0, 0.5)',
+                                    borderColor: 'rgba(255, 153, 0, 1)'
+                                },
+                                {
+                                    fill: false,
+                                    label:'Total Passing Touchdowns Percentage by Year',
+                                    data: [{x:2009, y: td09 },{x:2010, y: td10 },{x:2011, y: td11 },{x:2012, y: td12 },{x:2013, y: td13 },{x:2014, y: td14 }, {x:2015, y:td15}],
+                                    backgroundColor: 'rgba(0, 0, 255, 0.5)',
+                                    borderColor: 'rgba(0, 0, 255, 1)'
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                xAxes: [{
+                                    type:'linear',
+                                    position:'bottom',
+                                    ticks: {
+                                        min:2009,
+                                        max:2015
+                                    }
+                                }],
+                                yAxes: [{
+                                    type:'linear',
+                                    position: 'left',
+                                    ticks: {
+                                        min: 60,
+                                        max: 74
+                                    }
+                                }]
+                            }
+                        }
+
+                    });
+
                 }, 'json');
             $('#Chart2009').click(function(){
                 if(show09){
@@ -247,7 +304,7 @@
                 else{
                     show09 = true;
                     Chart2009.config.data.datasets[0].data = alltds[0]
-                    per09=((alltds[0][1]/(alltds[0][0]+alltds[0][1]))*100).toFixed(2)
+                    per09=td09
                     $('#per09').html('Passing Touchdowns ' + per09 + '%')
                     Chart2009.update()
                 }
@@ -263,7 +320,7 @@
                 else{
                     show10 = true;
                     Chart2010.config.data.datasets[0].data = alltds[1]
-                    per10=((alltds[1][1]/(alltds[1][0]+alltds[1][1]))*100).toFixed(2)
+                    per10=td10
                     $('#per10').html('Passing Touchdowns ' + per10 + '%')
                     Chart2010.update()
                 }
@@ -279,7 +336,7 @@
                 else{
                     show11 = true;
                     Chart2011.config.data.datasets[0].data = alltds[2]
-                    per11=((alltds[2][1]/(alltds[2][0]+alltds[2][1]))*100).toFixed(2)
+                    per11=td11
                     $('#per11').html('Passing Touchdowns ' + per11 + '%')
                     Chart2011.update()
                 }
@@ -295,7 +352,7 @@
                 else{
                     show12 = true;
                     Chart2012.config.data.datasets[0].data = alltds[3]
-                    per12=((alltds[3][1]/(alltds[3][0]+alltds[3][1]))*100).toFixed(2)
+                    per12=td12
                     $('#per12').html('Passing Touchdowns ' + per12 + '%')
                     Chart2012.update()
                 }
@@ -311,7 +368,7 @@
                 else{
                     show13 = true;
                     Chart2013.config.data.datasets[0].data = alltds[4]
-                    per13=((alltds[4][1]/(alltds[4][0]+alltds[4][1]))*100).toFixed(2)
+                    per13=td13
                     $('#per13').html('Passing Touchdowns ' + per13 + '%')
                     Chart2013.update()
                 }
@@ -327,7 +384,7 @@
                 else{
                     show14 = true;
                     Chart2014.config.data.datasets[0].data = alltds[5]
-                    per14=((alltds[5][1]/(alltds[5][0]+alltds[5][1]))*100).toFixed(2)
+                    per14=td14
                     $('#per14').html('Passing Touchdowns ' + per14 + '%')
                     Chart2014.update()
                 }
@@ -343,7 +400,7 @@
                 else{
                     show15 = true;
                     Chart2015.config.data.datasets[0].data = alltds[6]
-                    per15=((alltds[6][1]/(alltds[6][0]+alltds[6][1]))*100).toFixed(2)
+                    per15=td15
                     $('#per15').html('Passing Touchdowns ' + per15 + '%')
                     Chart2015.update()
                 }
