@@ -13,4 +13,8 @@ $routeProvider
 		templateUrl: 'static/client/partials/rushvspass.html', 
 		controller: 'homeController'
 	})
+	.when('/players', {
+		templateUrl: 'static/client/partials/playersover.html', 
+		controller: 'homeController'
+	})
 });

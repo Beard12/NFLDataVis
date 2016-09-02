@@ -47,4 +47,21 @@ def passvsrushbyyear():
 
 	return jsonify(**pass_vs_rush)
 
+@app.route('/playerover1000')
+def playerover1000():
+	player_over_1000 = dict()
+	for i in range(2009, 2016):
+		season = nflgame.games(i)
+		all_players = nflgame.combine_game_stats(season)
+		qbs_4000 = filter(lambda x: x.passing_yds > 4000, all_players)
+		run_1000 = filter(lambda x: x.rushing_yds > 1000, all_players)
+		rec_1000 = filter(lambda x: x.receiving_yds > 1000, all_players)
+		sumofqbs = len(qbs_4000)
+		sumofrun = len(run_1000)
+		sumofrec = len(rec_1000)
+		obj = {'qbs': sumofqbs, 'run': sumofrun, 'rec': sumofrec}
+		player_over_1000['playercount' + str(i)] = obj
+		#10,5,10,11,9,11,12
+	return jsonify(**player_over_1000)
+
 app.run(debug=True)
