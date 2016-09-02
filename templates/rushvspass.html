@@ -22,9 +22,10 @@
         margin-top: 2px;
         text-align: center;
     }
-    #percengraph{
+    #percengraph div{
         margin:auto;
-        width:90%;
+        width:45%;
+
     }
     #percengraph p{
         font-size: 2rem;
@@ -73,8 +74,10 @@
         </div>
     </div>
     <div id="percengraph">
+        <div>
             <p>Percentage Over Time</p>
             <canvas id="passperc" width="50" height="50"></canvas>
+        </div>
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
@@ -110,6 +113,8 @@
                     for(var i = 2009; i < 2016;i++){
                         percentages['passperc' + i] = ((allyards[i-2009][1]/(allyards[i-2009][0]+allyards[i-2009][1]))*100).toFixed(2)
                         percentages['passtdsperc' + i] = ((alltds[i-2009][1]/(alltds[i-2009][0]+alltds[i-2009][1]))*100).toFixed(2)
+                        percentages['rushperc' + i] = ((allyards[i-2009][0]/(allyards[i-2009][0]+allyards[i-2009][1]))*100).toFixed(2)
+                        percentages['rushtdsperc' + i] = ((alltds[i-2009][0]/(alltds[i-2009][0]+alltds[i-2009][1]))*100).toFixed(2)
                     }
                     console.log(percentages)
                     $('#per09').html('Yards ' + percentages.passperc2009 + '% Passing')
@@ -246,6 +251,7 @@
                             datasets: [
                                 {   
                                     fill: false,
+                                    yAxisID: 'pass',
                                     label:'Total Offensive Yards Pass Percentage by Year',
                                     data: [
                                         {x:2009, y: percentages.passperc2009 },
@@ -261,6 +267,7 @@
                                 },
                                 {
                                     fill: false,
+                                    yAxisID: 'pass',
                                     label:'Total Passing Touchdowns Percentage by Year',
                                     data: [
                                         {x:2009, y: percentages.passtdsperc2009 },
@@ -271,8 +278,40 @@
                                         {x:2014, y: percentages.passtdsperc2014 },
                                         {x:2015, y: percentages.passtdsperc2015 }
                                     ],
+                                    backgroundColor: 'rgba(230,153, 0, 0.5)',
+                                    borderColor: 'rgba(230, 153, 0, 1)'
+                                },
+                                {   
+                                    fill: false,
+                                    yAxisID: 'rush',
+                                    label:'Total Offensive Yards Rush Percentage by Year',
+                                    data: [
+                                        {x:2009, y: percentages.rushperc2009 },
+                                        {x:2010, y: percentages.rushperc2010 },
+                                        {x:2011, y: percentages.rushperc2011 },
+                                        {x:2012, y: percentages.rushperc2012 },
+                                        {x:2013, y: percentages.rushperc2013 },
+                                        {x:2014, y: percentages.rushperc2014 }, 
+                                        {x:2015, y: percentages.rushperc2015 }
+                                    ],
                                     backgroundColor: 'rgba(0, 0, 255, 0.5)',
-                                    borderColor: 'rgba(0, 0, 255, 1)'
+                                    borderColor: 'rgba(0, 0, 255, 0.5)'
+                                },
+                                {
+                                    fill: false,
+                                    yAxisID: 'rush',
+                                    label:'Total Rushing Touchdowns Percentage by Year',
+                                    data: [
+                                        {x:2009, y: percentages.rushtdsperc2009 },
+                                        {x:2010, y: percentages.rushtdsperc2010 },
+                                        {x:2011, y: percentages.rushtdsperc2011 },
+                                        {x:2012, y: percentages.rushtdsperc2012 },
+                                        {x:2013, y: percentages.rushtdsperc2013 },
+                                        {x:2014, y: percentages.rushtdsperc2014 },
+                                        {x:2015, y: percentages.rushtdsperc2015 }
+                                    ],
+                                    backgroundColor: 'rgba(0, 0, 230, 0.5)',
+                                    borderColor: 'rgba(0, 0, 230, 1)'
                                 }
                             ]
                         },
@@ -287,17 +326,29 @@
                                     }
                                 }],
                                 yAxes: [{
+                                    id: 'pass',
                                     type:'linear',
-                                    position: 'left',
+                                    position:'left',
                                     ticks: {
                                         min: 60,
-                                        max: 74
+                                        max: 72
                                     }
+                                },
+                                {
+                                    id: 'rush',
+                                    type:'linear',
+                                    position: 'right',
+                                    ticks: {
+                                        min: 28,
+                                        max: 40
+                                    }
+
                                 }]
                             }
                         }
 
                     });
+                console.log(PassPerc)
 
                 }, 'json');
             $('#Chart2009').click(function(){
