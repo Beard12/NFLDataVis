@@ -9,11 +9,6 @@ app.secret_key= 'thisismysecretkey'
 def index():
 	return render_template('index.html')
 
-
-@app.route('/toppassers')
-def toppassers():
-	return render_template('passing.html')
-
 @app.route('/passing')
 def passing():
 	quarterbacks_over_time = dict()
@@ -30,10 +25,6 @@ def passing():
 		quarterbacks_over_time['pass' + str(i)] = qbslist
 
 	return jsonify(**quarterbacks_over_time)
-
-@app.route('/rushvspass')
-def rushvspass():
-	return render_template('rushvspass.html')
 
 @app.route('/passvsrushbyyear')
 def passvsrushbyyear():
