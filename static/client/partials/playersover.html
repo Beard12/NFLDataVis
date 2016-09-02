@@ -1,0 +1,67 @@
+<style type="text/css">
+	
+</style>
+	<h1> Number of Players achieving season milestones 2009-2015</h1>
+	<div id='bars'>
+		<div>
+			<canvas id="PlayerChart"></canvas>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var run =[]
+			var qbs = []
+			var rec = []
+			$.get('/playerover1000', function(res){
+				console.log(res)
+				for(x in res){
+					run.push(res[x].run)
+					qbs.push(res[x].qbs)
+					rec.push(res[x].rec)
+				}
+				console.log(run)
+				console.log(qbs)
+				console.log(rec)
+				var ctx = $("#PlayerChart");
+				var PlayerChart = new Chart(ctx, {
+					type: 'bar',
+					data: {
+						labels: ['2009','2010','2011', '2012', '2013', '2014', '2015'],
+						datasets: [
+							{
+									label: 'QBs over 4000 yards',
+									data: qbs,
+                                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                                    borderColor: 'rgba(255,99,132,1)',									
+							},
+							{
+									label: 'RBs over 1000 yards',
+									data: run,
+                                    backgroundColor: 'rgba(150, 255, 60, 0.5)',
+                                    borderColor: 'rgba(150, 255, 60, 1)',									
+							},
+							{
+									label: 'Recievers over 1000 yards',
+									data: rec,
+                                    backgroundColor: 'rgba(255, 153, 0, 0.5)',
+                                    borderColor: 'rgba(255, 153, 0, 1)',									
+							},
+						]
+					},
+					options: {
+                            scales: {
+                                yAxes: [{
+                                    type: 'linear',
+                                    position: 'left',
+                                    ticks: {
+                                        beginAtZero:true,
+                                        max:30,
+                                    }
+                                }]
+                            }
+                        }
+				})
+			}, 'json');
+		})
+	
+	</script>
