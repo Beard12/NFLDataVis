@@ -1,9 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html ng-app = "app">
 <head>
 	<title>NFL</title>
-</head>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.js"></script>
+<script src="../static/bower_components/angular/angular.min.js"></script>
+<script src="../static/bower_components/angular-route/angular-route.min.js"></script>
+<script src="../static/bower_components/angular-material/angular-material.min.js"></script>
+<link rel="stylesheet" href="../static/bower_components/angular-material/angular-material.min.css"></link>
+<script src="../static/bower_components/angular-aria/angular-aria.min.js"></script>
+<script src="../static/bower_components/angular-messages/angular-messages.min.js"></script>
+<script src="../static/bower_components/angular-animate/angular-animate.min.js"></script>
+<script src="../static/client/app.js"></script>
+<script src="../static/client/assets/controllers/homeController.js"></script>
+
+
+
 <style type="text/css">
     h1 {
         text-align: center;
@@ -19,25 +32,32 @@
         margin:auto;
         width: 45%;
     }
+    .toolbardemoBasicUsage md-toolbar md-icon.md-default-theme {
+  color: white; 
+}
 </style>
+</head>
+
 <body>
-    <h1>Offensive Explosion</h1>
-    <h4>
-        Offensive Football Football stuff. Quarterback, Running Back, nickel dime SHIT. THIS IS IMPORTANT. LOVE IS FOOTBALL WE ARE FOOTBALL. STATEMENT ABOUT THE WEBSITE BRAH
-    </h4>
-    <div id="buttons">
-        <!-- top 20 passing -->
-        <a href="/toppassers"><button>Passing</button></a>
-        <!-- last 7 seasons pie charts -->
-        <a href="/rushvspass"><button>Rush vs Pass</button></a>
-
-
-        
-        <a href="/yardagevstds"><button>Yardage vs Tds</button></a>
-        <a href="/stuff"><button>STUFF</button></a>
-        <a href="/stuffy"><button>wowzer</button></a>
-        
-    </div>
-
+<div ng-cloak>
+  <md-content>
+    <br>
+    <md-toolbar class="md-hue-2">
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
+        </md-button>
+        <h2>
+          <span>Toolbar with Disabled/Enabled Icon Buttons</span>
+        </h2>
+        <span flex></span>
+        <md-button class="md-icon-button" aria-label="Favorite">
+          <md-icon md-svg-icon="img/icons/favorite.svg" style="color: greenyellow;"></md-icon>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="More">
+        </md-button>
+      </div>
+    </md-toolbar>
+    <br>
+<div ng-view = ""></div>
 </body>
 </html>
